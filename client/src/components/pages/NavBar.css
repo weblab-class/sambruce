@@ -1,0 +1,27 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+
+.Navbar-container{
+    background-color: var(--primary--dim);
+    border:0;
+    padding-bottom:8px;
+    margin:0;
+}
+
+.Navbar-title{
+    color: var(--grey);
+    padding: var(--l);
+    padding-bottom:0;
+    font-size:18px;
+}
+
+.Navbar-linkcontainer{
+    padding:var(--l);
+    padding-bottom:0;
+}
+
+.Navbar-link{
+    color: var(--grey);
+    font-size:18px;
+    font-family:sans-serif;
+}

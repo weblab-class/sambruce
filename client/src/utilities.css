@@ -24,6 +24,8 @@
   --medgrey: #e0e0e0;
   --grey: #f7f7f7;
   --white: #fff;
+  --black: #000000;
+  --darkergrey: rgb(44,44,44);
 
   --xs: 4px;
   --s: 8px;
@@ -80,11 +82,11 @@ form {
 }
 
 .u-link {
-  color: var(--primary);
+  color:var(--primary);
   text-decoration: none;
   cursor: pointer;
 }
 
 .u-link:hover {
-  color: var(--primary--dim);
+  color: var(--black);
 }

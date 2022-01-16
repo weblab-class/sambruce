@@ -1,0 +1,36 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+.EditPage-container{
+    background-color:var(--darkgrey);
+    margin: 32px 40% 16px 16px;
+    border-radius: 8px;
+}
+
+.EditPage-greeting{
+    color:var(--darkergrey);
+    font-size:36px;
+    font-family: sans-serif;
+    padding:16px;
+    padding-bottom:0px;
+}
+
+.EditPage-form{
+    margin:16px;
+}
+
+.EditPage-field{
+    margin:16px;
+}
+
+.EditPage-input{
+    margin-left:var(--s);
+    background-color:var(--primary--dim);
+    opacity: 60%;
+    border-radius:4px;
+}
+
+.EditPage-button{
+    width:48px;
+    height:16px;
+    cursor:pointer;
+}

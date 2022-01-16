@@ -1,0 +1,46 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+
+
+.Profile-container{
+    padding-top: 0px;
+    border-top:0;
+    margin-top:0;
+}
+
+.Profile-header{
+    background-color: var(--primary);
+    margin-right:85%;
+    border-bottom-right-radius:8px;
+    padding:18px;
+}
+
+.Profile-title{
+    color: var(--white);
+    font-size:36px;
+}
+
+.Profile-name{
+    color:var(--darkergrey);
+    font-size:48px;
+    font-family: sans-serif;
+    padding:16px;
+}
+
+.Profile-aboutContainer{
+    padding:var(--l);
+    background-color: var(--primary--dim);
+    border-radius: 16px;
+    margin:16px 15% 16px 15%;
+    outline: var(--darkergrey) solid 3px;
+}
+
+.Profile-aboutBody{
+    font-size:24px;
+    font-family: sans-serif;
+    color:var(--darkergrey);
+    margin:16px;
+}
+
+.Profile-line{
+    margin:16px;
+}

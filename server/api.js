@@ -11,6 +11,7 @@ const express = require("express");
 
 // import models so we can interact with the database
 const User = require("./models/user");
+const Profile = require("./models/Profilemodel");
 
 // import authentication library
 const auth = require("./auth");
@@ -28,8 +29,39 @@ router.get("/whoami", (req, res) => {
     // not logged in
     return res.send({});
   }
-
   res.send(req.user);
+});
+
+router.get("/userdata", (req,res) => {
+  if (!req.user) {
+    // not logged in
+    return res.send({});
+  }
+  let query = {userId:req.query.id};
+  Profile.findOne(query).then((profile) => res.send(profile))
+});
+
+router.get("/randuser",(req,res) => {
+  if (!req.user){
+    return res.send({});
+  }
+  let query = {userId : {$ne : req.query.id}}
+  Profile.findOne(query).then((profile) => res.send(profile));
+});
+
+router.post("/updateuserdata",(req,res) => {
+  [username,loc,sch,fav,user_id] = req.body
+  let query = {userId:user_id};
+  Profile.deleteMany(query).then( () => {
+  const profile = new Profile({ 
+    name:username, 
+    location:loc, 
+    schedule:sch,
+    favorite:fav,
+    userId:user_id, 
+  })
+  profile.save();
+  });
 });
 
 router.post("/initsocket", (req, res) => {
