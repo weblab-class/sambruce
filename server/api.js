@@ -83,7 +83,7 @@ router.get("/randuser",(req,res) => { //returns a random user not previously mat
           newConnectProfile = new ConnectList({userId:req.query.id, connections:[],current_connection:profile.userId});
           newConnectProfile.save();
         }
-        else { //if a new profile was added after ran out of content
+        else { //if a new profile was added after ran out of content, resets current connection
           if (cList.current_connection == "false") {
             cList.current_connection = profile.userId;
             cList.save();
