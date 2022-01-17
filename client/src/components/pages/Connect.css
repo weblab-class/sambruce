@@ -1,5 +1,9 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
 .Connect-container{
-    color: var(--primary--dim);
+    padding:var(--l);
+    background-color: var(--primary--dim);
+    border-radius: 16px;
+    margin:16px 15% 16px 15%;
+    outline: var(--darkergrey) solid 3px;
 }
