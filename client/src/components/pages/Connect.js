@@ -9,10 +9,14 @@ import "./Connect.css";
 const Connect = ({userId}) => { 
     const [newUser,setNewUser] = useState({name:undefined});
     const [changeUser,setChangeUser] = useState(0);
+    const [outOfUsers,setOutOfUsers] = useState(false);
     
     const getRandomUser = (update_user) => { //Returns user data for random user
         //Make API call to get random userId, not you or anyone youve messaged
-        get("/api/randuser",{id:userId, update:update_user}).then((data) => setNewUser(data));
+        get("/api/randuser",{id:userId, update:update_user}).then((data) => {
+          if (Object.keys(data).length == 0) setOutOfUsers(true);
+          else setNewUser(data);
+        });
         return({});
     }
 
@@ -35,11 +39,16 @@ const Connect = ({userId}) => {
 
   return (
     <div className="Connect-container">
-        {newUser.name?
-        (<div> {newUser.name}
-          <button onClick={() => getRandomUser(true)} /> 
-        </div>)
-        : (<div> Login to Access Content </div>)
+        {
+        outOfUsers?
+          (<div>No More Users to See! </div>)
+          :newUser.name?
+            (<div> {newUser.name}
+              <div>
+                <button onClick={() => getRandomUser(true)} ><div>Next User</div> </button>
+              </div>
+            </div>)
+            : (<div> Login to Access Content </div>)
         }
     </div>
 

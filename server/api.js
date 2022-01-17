@@ -42,33 +42,51 @@ router.get("/userdata", (req,res) => {
   Profile.findOne(query).then((profile) => res.send(profile))
 });
 
-router.get("/randuser",(req,res) => {
+router.get("/randuser",(req,res) => { //returns a random user not previously matched with, and if update is true, finds a new user
+  //If not logged in
   if (!req.user){
     return res.send({});
   }
-  let query = {userId : {$ne : req.query.id}}
-  Profile.findOne(query).then((profile) => {
-    ConnectList.findOne({userId:req.query.id}).then((cList) => {
-      if (req.query.update == "true") {
-        if (cList && cList.userId) {
-          console.log("found profile");
-          console.log("connectId: ".concat(profile.userId));
-          console.log(cList);
-          cList.connections = [...cList.connections,profile.userId];
-          console.log(cList);
-          cList.save();
-        } 
-        else {
-          console.log(cList);
-          newConnectProfile = new ConnectList({userId:req.query.id, connections:[profile.userId]});
-          newConnectProfile.save();
-      }
+  
+  prior_connections = []
+  cList = null
+  //finds logged in user's connection list and if update is true, includes current connection
+  ConnectList.findOne({userId :req.query.id}).then((user_connections) => { 
+    cList = user_connections;
+    if (cList) {
+      if(req.query.update == "true") prior_connections = [...cList.connections,cList.current_connection];
+      else prior_connections = cList.connections;
     }
+  }).then(() => {
+    //Once connection list found, adds self and queries first user not on the list
+    let query = {userId : {$nin : [...prior_connections,req.query.id] }};
+
+    Profile.findOne(query).then((profile) => {
+      //If there are no new users to connect with, updates connection list (no current connection) and returns
+      if (!profile) {
+        if (cList && cList.current_connection != "false") {
+          cList.connections = [...cList.connections,cList.current_connection];
+          cList.current_connection = false;
+          cList.save();
+        }
+        res.send({});
+        return;
+      }
+      //finds logged in user's connection list
+      if (req.query.update == "true") { //If the button to find a new user was clicked, adds current connection to past connections, and updates current connection
+        cList.connections = [...cList.connections,cList.current_connection];
+        cList.current_connection = profile.userId;
+        cList.save(); 
+      }
+      else{ //if the page is visited for the first time (button not pressed), creates new connection list for the user
+        if(!cList){
+          newConnectProfile = new ConnectList({userId:req.query.id, connections:[],current_connection:profile.userId});
+          newConnectProfile.save();
+        }
+      }
+      res.send(profile);
+    });
   });
-    
-    res.send(profile);
-  }
-);
 });
 
 /* router.post("/addconnection", (req,res) => {
