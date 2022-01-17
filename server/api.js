@@ -12,6 +12,7 @@ const express = require("express");
 // import models so we can interact with the database
 const User = require("./models/user");
 const Profile = require("./models/Profilemodel");
+const ConnectList = require("./models/ConnectList");
 
 // import authentication library
 const auth = require("./auth");
@@ -46,8 +47,47 @@ router.get("/randuser",(req,res) => {
     return res.send({});
   }
   let query = {userId : {$ne : req.query.id}}
-  Profile.findOne(query).then((profile) => res.send(profile));
+  Profile.findOne(query).then((profile) => {
+    ConnectList.findOne({userId:req.query.id}).then((cList) => {
+      if (req.query.update == "true") {
+        if (cList && cList.userId) {
+          console.log("found profile");
+          console.log("connectId: ".concat(profile.userId));
+          console.log(cList);
+          cList.connections = [...cList.connections,profile.userId];
+          console.log(cList);
+          cList.save();
+        } 
+        else {
+          console.log(cList);
+          newConnectProfile = new ConnectList({userId:req.query.id, connections:[profile.userId]});
+          newConnectProfile.save();
+      }
+    }
+  });
+    
+    res.send(profile);
+  }
+);
 });
+
+/* router.post("/addconnection", (req,res) => {
+  [user_id,connectId] = req.body;
+  ConnectList.findOne({userId:user_id}).then((cList) => {
+    
+    if (cList && cList.userId) {
+      console.log("found profile");
+      console.log("connectId: ".concat(connectId));
+      cList.connections = [...cList.connections,connectId];
+    }
+    else {
+      console.log(cList);
+      newConnectProfile = new ConnectList({userId:user_id, connections:[connectId]});
+      newConnectProfile.save();
+    }
+  })
+  res.send({});
+}); */
 
 router.post("/updateuserdata",(req,res) => {
   [username,loc,sch,fav,user_id] = req.body
@@ -62,6 +102,7 @@ router.post("/updateuserdata",(req,res) => {
   })
   profile.save();
   });
+  res.send({});
 });
 
 router.post("/initsocket", (req, res) => {
