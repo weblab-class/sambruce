@@ -74,14 +74,20 @@ router.get("/randuser",(req,res) => { //returns a random user not previously mat
       }
       //finds logged in user's connection list
       if (req.query.update == "true") { //If the button to find a new user was clicked, adds current connection to past connections, and updates current connection
-        cList.connections = [...cList.connections,cList.current_connection];
+        if (cList.current_connection != "false") cList.connections = [...cList.connections,cList.current_connection];
         cList.current_connection = profile.userId;
         cList.save(); 
       }
-      else{ //if the page is visited for the first time (button not pressed), creates new connection list for the user
-        if(!cList){
+      else{ 
+        if(!cList){ //if the page is visited for the first time (button not pressed), creates new connection list for the user
           newConnectProfile = new ConnectList({userId:req.query.id, connections:[],current_connection:profile.userId});
           newConnectProfile.save();
+        }
+        else { //if a new profile was added after ran out of content
+          if (cList.current_connection == "false") {
+            cList.current_connection = profile.userId;
+            cList.save();
+          }
         }
       }
       res.send(profile);
