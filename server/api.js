@@ -13,6 +13,7 @@ const express = require("express");
 const User = require("./models/user");
 const Profile = require("./models/Profilemodel");
 const ConnectList = require("./models/ConnectList");
+const MessageList = require("./models/MessageList");
 
 // import authentication library
 const auth = require("./auth");
@@ -56,6 +57,32 @@ router.get("/randuser",(req,res) => { //returns a random user not previously mat
     if (cList) {
       if(req.query.update == "true") prior_connections = [...cList.connections,cList.current_connection];
       else prior_connections = cList.connections;
+
+      //Adds user to the messageList if connect button was pressed
+      if (req.query.connect == "true") {
+        MessageList.findOne({userId:req.query.id}).then((mList) => {
+          newChat = cList.current_connection
+          if (newChat == "false") { () => {
+            Profile.findOne({userId : {$nin : [...prior_connections,req.query.id] }}).then((profile) => {
+              newChat = profile.userId;
+            });
+          }}
+          if (!mList) {
+            newMessageList = new MessageList({userId:req.query.id,chats:{},current_chat:null});
+            newMessageList.chats[newChat] = [];
+            newMessageList.save();
+          }
+          else {
+            newChatList = {};
+            for (var chatuser in mList.chats){
+              newChatList[chatuser] = mList.chats[chatuser];
+            }
+            newChatList[newChat] = [];
+            mList.chats = newChatList;
+            mList.save();
+          }
+        });
+      }
     }
   }).then(() => {
     //Once connection list found, adds self and queries first user not on the list
@@ -72,7 +99,6 @@ router.get("/randuser",(req,res) => { //returns a random user not previously mat
         res.send({});
         return;
       }
-      //finds logged in user's connection list
       if (req.query.update == "true") { //If the button to find a new user was clicked, adds current connection to past connections, and updates current connection
         if (cList.current_connection != "false") cList.connections = [...cList.connections,cList.current_connection];
         cList.current_connection = profile.userId;
@@ -95,6 +121,31 @@ router.get("/randuser",(req,res) => { //returns a random user not previously mat
   });
 });
 
+router.get("/messageList", (req,res) => {
+  MessageList.findOne({userId:req.query.id}).then((mList) => {
+    if (!mList) {
+      res.send([]);
+    }
+    else{
+      let connections = mList.chats;
+      let open_chats = [];
+      let counter = 0;
+      for (c_Id in connections){
+        MessageList.findOne({userId:c_Id}).then((c_mList) => {
+          counter = counter+1;
+          if(c_mList && req.query.id in c_mList.chats){
+            open_chats.push(c_Id);
+          }
+          if (counter == Object.keys(connections).length){
+            console.log(open_chats);
+            res.send(open_chats);
+          }
+        });
+      } 
+    }
+  });
+
+});
 /* router.post("/addconnection", (req,res) => {
   [user_id,connectId] = req.body;
   ConnectList.findOne({userId:user_id}).then((cList) => {

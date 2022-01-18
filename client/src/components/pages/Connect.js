@@ -11,27 +11,18 @@ const Connect = ({userId}) => {
     const [changeUser,setChangeUser] = useState(0);
     const [outOfUsers,setOutOfUsers] = useState(false);
     
-    const getRandomUser = (update_user) => { //Returns user data for random user
+    const getRandomUser = (update_user,connect_toUser) => { //Returns user data for random user
         //Make API call to get random userId, not you or anyone youve messaged
-        get("/api/randuser",{id:userId, update:update_user}).then((data) => {
+        get("/api/randuser",{id:userId, update:update_user, connect:connect_toUser}).then((data) => {
           if (Object.keys(data).length == 0) setOutOfUsers(true);
           else setNewUser(data);
         });
         return({});
     }
 
-    /* const updateConnections = () => {
-        //API call that updates the list of matches
-        console.log(newUser.name);
-        console.log(newUser.userId);
-        if(newUser && newUser.name) {
-          post("/api/addconnection",[userId,newUser.userId]);
-          console.log("adding user");
-        }
-    } */
     useEffect(() => {
       if(userId){
-        getRandomUser(false);
+        getRandomUser(false,false);
       }
     },[changeUser]);
 
@@ -43,9 +34,24 @@ const Connect = ({userId}) => {
         outOfUsers?
           (<div>No More Users to See! </div>)
           :newUser.name?
-            (<div> {newUser.name}
+            (<div> 
+              <div> 
+                <div>{newUser.name} </div>
+                <div>{newUser.location} </div>
+                <div>{newUser.schedule} </div>
+                <div>{newUser.favorite} </div>
+              </div>
               <div>
-                <button onClick={() => getRandomUser(true)} ><div>Next User</div> </button>
+                <span>
+                  <button onClick={() => getRandomUser(true,false)} >
+                    <div>Next User</div> 
+                  </button>
+                </span>
+                <span>
+                  <button onClick={() => getRandomUser(true,true)}>
+                    <div>Connect</div>
+                  </button>
+                </span>
               </div>
             </div>)
             : (<div> Login to Access Content </div>)
