@@ -4,27 +4,58 @@ import { get, post } from "../../utilities";
 import "../../utilities.css";
 import "./Messages.css";
 
+import Chat from "../modules/Chat.js"
+
 const Messages = ({userId}) => {
-  const [chatList,setChatList] = useState([])
+  const [chatList,setChatList] = useState([]);
+  const [currentChats,setCurrentChats] = useState([]);
+  const [currentChatUser,setCurrentChatUser] = useState({});
 
   const getUserConnections = () => {
-    // Returns list of userId's that have mutual connections
+    // compiles list of userId's that have mutual connections in userId:name format
     get("/api/messageList",{id:userId}).then((cList) => {
-        console.log(cList);
-        setChatList(cList);
+      get("/api/namesFromIds",({ids:cList})).then((name_map) => {
+        setChatList(name_map)});
+      });
+  }
+
+  const updateCurrentChat = (chat_id) => {
+    get("/api/currentChat", {id:userId,chatId:chat_id}).then((chat) => {
+      if(Object.keys(chat).length == 0) return;
+      get("/api/userdata",{id:chat.chatId}).then((profile) => setCurrentChatUser({id:profile.userId,name:profile.name}));
+      setCurrentChats(chat.chats);
     });
+  }
+
+  const postChat = (chat) => {
+    post("/api/singleChat",{id:userId,c_id:currentChatUser.id, message:chat}).then(
+      (updated_chats) => setCurrentChats(updated_chats.chats));
   }
 
   useEffect(() => {
     getUserConnections();
+    setCurrentChats([]);
+    setCurrentChatUser({});
+    updateCurrentChat(null);
   },[userId]);
 
   return (
-    <div className="Messages-test">
-        {chatList.map((chatId) => (<div> {chatId}</div>))}
+    <div className="Messages-flexContainer">
+      <div className="Messages-chatList">
+        ChatList:
+        {Object.keys(chatList).map((chatId) => {return (<div onClick={() => updateCurrentChat(chatId)}>{chatList[chatId]}</div>)})}
+      </div>
+      <div>
+        {userId?
+        (<Chat userId={userId} currentChatUser={currentChatUser} chats={currentChats} postChat={postChat}/>)
+        :(<div>Login to See Message List</div>)}
+      </div>
     </div>
 
   );
 };
 
 export default Messages;
+
+
+//

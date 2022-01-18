@@ -23,6 +23,7 @@ const router = express.Router();
 
 //initialize socket
 const socketManager = require("./server-socket");
+const { getMaxListeners } = require("./models/user");
 
 router.post("/login", auth.login);
 router.post("/logout", auth.logout);
@@ -73,7 +74,7 @@ router.get("/randuser",(req,res) => { //returns a random user not previously mat
             newMessageList.save();
           }
           else {
-            newChatList = {};
+            let newChatList = {};
             for (var chatuser in mList.chats){
               newChatList[chatuser] = mList.chats[chatuser];
             }
@@ -132,37 +133,57 @@ router.get("/messageList", (req,res) => {
       let counter = 0;
       for (c_Id in connections){
         MessageList.findOne({userId:c_Id}).then((c_mList) => {
-          counter = counter+1;
+          counter = counter+1; 
           if(c_mList && req.query.id in c_mList.chats){
-            open_chats.push(c_Id);
+            open_chats.push(c_mList.userId);
           }
           if (counter == Object.keys(connections).length){
-            console.log(open_chats);
             res.send(open_chats);
           }
         });
       } 
     }
   });
-
 });
-/* router.post("/addconnection", (req,res) => {
-  [user_id,connectId] = req.body;
-  ConnectList.findOne({userId:user_id}).then((cList) => {
-    
-    if (cList && cList.userId) {
-      console.log("found profile");
-      console.log("connectId: ".concat(connectId));
-      cList.connections = [...cList.connections,connectId];
+
+router.get("/namesFromIds", (req,res) => {
+  if(!req.user) return res.send({});
+  let counter = 0;
+  let id_map = {};
+  let ids = req.query.ids.split(",");
+  if(typeof ids == "string") ids = [ids];
+  for (id in ids){
+    Profile.findOne({userId:ids[id]}).then((profile) => {
+      if(profile) id_map[profile.userId] = profile.name;
+      counter = counter+1;
+      if (counter == ids.length){
+        return res.send(id_map);
+      }
+    });
+  }
+});
+
+router.get("/currentChat", (req,res) => {
+  if (!req.user){
+    return res.send({});
+  }
+  MessageList.findOne({userId:req.query.id}).then((mList) => {
+    if (!mList) {
+      return res.send({});
     }
-    else {
-      console.log(cList);
-      newConnectProfile = new ConnectList({userId:user_id, connections:[connectId]});
-      newConnectProfile.save();
+    if (req.query.chatId != "null") {
+      mList.current_chat = req.query.chatId;
+      mList.save();
     }
+    if (mList.current_chat) {
+      let messages = mList.chats[mList.current_chat];
+      let chat_id = mList.current_chat;
+      let chat_obj = {chatId:chat_id, chats:messages};
+      return res.send(chat_obj);
+    } 
+    res.send({});
   })
-  res.send({});
-}); */
+});
 
 router.post("/updateuserdata",(req,res) => {
   [username,loc,sch,fav,user_id] = req.body
@@ -178,6 +199,30 @@ router.post("/updateuserdata",(req,res) => {
   profile.save();
   });
   res.send({});
+});
+
+router.post("/singleChat", (req,res) => {
+  let newMessage = {sender:req.body.id,content:req.body.message};
+  let messages = [];
+  MessageList.findOne({userId:req.body.id}).then((mList) => {
+    let newChatList = {};
+    for (var chatuser in mList.chats){
+      newChatList[chatuser] = mList.chats[chatuser];
+    }
+    newChatList[req.body.c_id] = [...newChatList[req.body.c_id],newMessage];
+    mList.chats = newChatList;
+    mList.save();
+    res.send({chatId:req.body.c_id,chats:mList.chats[req.body.c_id]});
+  });
+  MessageList.findOne({userId:req.body.c_id}).then((mList) => {
+    let newChatList = {};
+    for (var chatuser in mList.chats){
+      newChatList[chatuser] = mList.chats[chatuser];
+    }
+    newChatList[req.body.id] = [...newChatList[req.body.id],newMessage];
+    mList.chats = newChatList;
+    mList.save();
+  });
 });
 
 router.post("/initsocket", (req, res) => {

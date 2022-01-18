@@ -1,0 +1,41 @@
+
+.Chat-container{
+    margin:32px;
+}
+
+.Chat-messageUnit{
+    margin:16px;
+}
+
+.Chat-messageBody{
+    background-color:var(--primary--dim);
+    color:white;
+    padding: 8px 16px 8px 16px;
+    font-size:16px;
+    font-family:sans-serif;
+    border-radius: 6px;
+}
+
+.Chat-sendBody{
+    position:fixed;
+    bottom:32px;
+    left:auto;
+}
+.Chat-input{
+    border-radius: 8px;
+    width:70%;
+    height:36px;
+    font-size:27px;
+    font-family:sans-serif;
+}
+
+.Chat-submit{
+    background-color: var(--primary--dim);
+    border-radius:8px;
+    width:20%;
+    height:36px;
+    color:white;
+    font-family: sans-serif;
+    text-align:center;
+    font-size:18px;
+}
