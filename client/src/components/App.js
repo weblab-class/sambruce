@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Router } from "@reach/router";
 import NotFound from "./pages/NotFound.js";
 import NavBar from "./pages/NavBar.js";
-import TestPage from "./TestPage.js";
+import HomePage from "./HomePage.js";
 import Profile from "./pages/Profile.js";
 import Connect from "./pages/Connect.js";
 import Messages from "./pages/Messages.js";
@@ -63,7 +63,7 @@ const App = () => {
     <div>
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
       <Router>
-        <TestPage path="/" />
+        <HomePage path="/" />
         <Profile path="/profile" userId={userId} data={user}/>
         <Connect path="/connect" userId={userId} />
         <Messages path="/messages" userId={userId} />
