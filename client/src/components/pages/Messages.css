@@ -5,5 +5,36 @@
 }
 
 .Messages-chatList{
-    margin:32px;
+    margin:0px;
+    padding:32px 32px 90% 32px;
+    font-family: sans-serif;
+    background-color:var(--primary--dim);
+    border-top: 1px solid var(--darkergrey);
+    color:white;
+}
+
+.Messages-chatTitle{
+    font-size:48px;
+    font-weight: 600;
+    font-family: sans-serif;
+    padding-bottom: 24px;
+    text-align:center;
+}
+
+.Messages-selector{
+    padding: 36px 8px 36px 8px;
+    margin: 0px 36px 0px 8px;
+    border: 1px solid var(--darkgrey);
+    background-color:white;
+    font-size:18px;
+    font-family: sans-serif;
+    text-align:center;
+    font-weight:500;
+    color:var(--darkergrey);
+    border-radius: 4px;
+}
+
+.Messages-selector:hover{
+    cursor:pointer;
+    background-color:var(--darkgrey);
 }

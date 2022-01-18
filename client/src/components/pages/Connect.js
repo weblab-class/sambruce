@@ -32,10 +32,10 @@ const Connect = ({userId}) => {
     <div className="Connect-container">
         {
         outOfUsers?
-          (<div>No More Users to See! </div>)
+          (<div className="Connect-body">No More Users to See! </div>)
           :newUser.name?
             (<div> 
-              <div> 
+              <div className="Connect-body"> 
                 <div>{newUser.name} </div>
                 <div>{newUser.location} </div>
                 <div>{newUser.schedule} </div>
@@ -54,7 +54,7 @@ const Connect = ({userId}) => {
                 </span>
               </div>
             </div>)
-            : (<div> Login to Access Content </div>)
+            : (<div className="Connect-body"> Login to Access Content </div>)
         }
     </div>
 

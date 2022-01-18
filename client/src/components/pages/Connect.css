@@ -7,3 +7,10 @@
     margin:16px 15% 16px 15%;
     outline: var(--darkergrey) solid 3px;
 }
+
+.Connect-body{
+    font-size:24px;
+    font-family: sans-serif;
+    color:var(--darkergrey);
+    margin:16px;
+}

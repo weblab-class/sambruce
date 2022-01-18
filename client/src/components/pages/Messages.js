@@ -42,8 +42,8 @@ const Messages = ({userId}) => {
   return (
     <div className="Messages-flexContainer">
       <div className="Messages-chatList">
-        ChatList:
-        {Object.keys(chatList).map((chatId) => {return (<div onClick={() => updateCurrentChat(chatId)}>{chatList[chatId]}</div>)})}
+        <div className="Messages-chatTitle">ChatList</div>
+        {Object.keys(chatList).map((chatId) => {return (<div className="Messages-selector" onClick={() => updateCurrentChat(chatId)}>{chatList[chatId]}</div>)})}
       </div>
       <div>
         {userId?

@@ -1,6 +1,13 @@
 
 .Chat-container{
-    margin:32px;
+    flex-grow:1;
+}
+
+.Chat-header{
+    padding:24px;
+    font-size:36px;
+    font-family: sans-serif;
+    font-weight: 400;
 }
 
 .Chat-messageUnit{
@@ -14,6 +21,13 @@
     font-size:16px;
     font-family:sans-serif;
     border-radius: 6px;
+}
+
+.Chat-messageSender{
+    color:darkgray;
+    font-family: sans-serif;
+    font-size:12px;
+    padding:8px;
 }
 
 .Chat-sendBody{

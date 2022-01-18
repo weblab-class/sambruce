@@ -16,17 +16,17 @@ const Chat = (props) => {
 
   return (
     <div className="Chat-container">
-        <div className="">
+        <div className="Chat-header">
             {hasLength(props.currentChatUser)? 
-            (<span>Currently Chatting With: {props.currentChatUser.name}</span>)
-            :(<span>No Chat Open, Select a User to See Messages</span>)}
+            (<span>{props.currentChatUser.name}</span>)
+            :(<span>Select a User to See Messages</span>)}
         </div>
         <div>
             {hasLength(props.chats)?
             props.chats.map((chat) => (
                 <div className="Chat-messageUnit">
                     <span className="Chat-messageBody">{chat.content}</span>
-                    <span>Sender: {chat.sender == props.userId?
+                    <span className="Chat-messageSender">{chat.sender == props.userId?
                                     (<span>Me</span>)
                                     :(<span>{props.currentChatUser.name}</span>)}
                     </span>
