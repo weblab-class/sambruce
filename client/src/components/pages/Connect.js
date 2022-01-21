@@ -29,33 +29,34 @@ const Connect = ({userId}) => {
     useEffect((() => setChangeUser(changeUser+1)),[userId]);
 
   return (
-    <div className="Connect-container">
-        {
+    <div>
+      <div className="u-header"><div className="u-title u-textCenter">Connect</div></div>
+      {userId?
         outOfUsers?
-          (<div className="Connect-body">No More Users to See! </div>)
-          :newUser.name?
-            (<div> 
-              <div className="Connect-body"> 
-                <div>{newUser.name} </div>
-                <div>{newUser.location} </div>
-                <div>{newUser.schedule} </div>
-                <div>{newUser.favorite} </div>
-              </div>
-              <div>
-                <span>
-                  <button onClick={() => getRandomUser(true,false)} >
-                    <div>Next User</div> 
-                  </button>
-                </span>
-                <span>
-                  <button onClick={() => getRandomUser(true,true)}>
-                    <div>Connect</div>
-                  </button>
-                </span>
-              </div>
+          (<div className="u-name">No More Users to See! </div>)
+          :(<div>
+            <div className="u-name">{newUser.name}</div>
+            <div className="u-container"> 
+                <div className="Connect-body u-textCenter">
+                  <div className="Connect-line">Living in {newUser.location} </div>
+                  <div className="Connect-line">Works out {newUser.schedule} </div>
+                  <div className="Connect-line">Favorite workout is {newUser.favorite} </div>
+                </div>
+                <div className="u-flex Connect-center">
+                  <span>
+                    <button className="Connect-button" onClick={() => getRandomUser(true,false)}>
+                      <div>Next User</div> 
+                    </button>
+                  </span>
+                  <span>
+                    <button className="Connect-button" onClick={() => getRandomUser(true,true)}>
+                      <div>Connect</div>
+                    </button>
+                  </span>
+                </div>
+            </div> 
             </div>)
-            : (<div className="Connect-body"> Login to Access Content </div>)
-        }
+        :(<div className="u-name"> Login to Connect </div>)}
     </div>
 
   );

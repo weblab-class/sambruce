@@ -60,11 +60,11 @@ const App = () => {
   
 
   return (
-    <div>
+    <div className="u-websiteBackground">
       <NavBar handleLogin={handleLogin} handleLogout={handleLogout} userId={userId} />
       <Router>
         <HomePage path="/" />
-        <Profile path="/profile" userId={userId} data={user}/>
+        <Profile path="/profile" userId={userId} data={user} myProfile={true}/>
         <Connect path="/connect" userId={userId} />
         <Messages path="/messages" userId={userId} />
         <EditPage path="/editProfile" userId = {userId} data={user} name = {name}/>

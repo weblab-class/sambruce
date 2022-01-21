@@ -19,18 +19,20 @@ const userCall = (data,userId) => {
 }
 
 
-const Profile = ({userId,data}) => {
+const Profile = ({userId,data,myProfile}) => {
   return (
-    <div className="Profile-container">
-        <div className="Profile-header">
-            <div className="Profile-title u-textCenter"> Profile </div>
-        </div>
+    <div>
+        {myProfile?
+        (<div className="u-header">
+            <div className="u-title u-textCenter"> Profile </div>
+        </div>)
+        :(<div></div>)}
         
-        <div className="Profile-name">
+        <div className="u-name">
             {userCall(data,userId)}
         </div>
             {data?
-            (<div className="Profile-aboutContainer">
+            (<div className="u-container">
                 <div className="Profile-aboutBody u-textCenter">
                     <div className="Profile-line"> I'm living in {data.location} </div>
                     <div className="Profile-line"> My workout schedule is {data.schedule} </div>
@@ -39,13 +41,15 @@ const Profile = ({userId,data}) => {
             </div>)
             :(<div></div>)
             }
+        {myProfile? 
         <div>
-            <button>
+            <button className="Profile-editButton">
                 <Link to="/editProfile" className="u-link">
                     EDIT Profile
                 </Link>
             </button>
         </div>
+        :<div></div>}
         
     </div>
 

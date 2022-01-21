@@ -16,16 +16,18 @@
 
 /* TODO: REPLACE WITH YOUR OWN FONT! */
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Nunito&display=swap");
 
 :root {
-  --primary: #396dff;
-  --primary--dim: #6987db;
-  --darkgrey: #d4d4d4;
-  --medgrey: #e0e0e0;
-  --grey: #f7f7f7;
-  --white: #fff;
-  --black: #000000;
   --darkergrey: rgb(44,44,44);
+  --oxford: #0B0B32; 
+  --teal: #81b4c5;
+  --green:#72A06A;
+  --brown:#ffa070;
+  --pink:#deced2;
+  --primary-font:"Poppins",sans-serif; 
+  --secondary-font:"Nunito",sans-serif;
 
   --xs: 4px;
   --s: 8px;
@@ -33,10 +35,11 @@
   --l: 24px;
 }
 
-body {
+
+html,body {
   margin: 0;
   padding: 0;
-  font-family: "Roboto", sans-serif;
+  height:100%;
   font-weight: 300;
 }
 
@@ -82,11 +85,57 @@ form {
 }
 
 .u-link {
-  color:var(--primary);
+  color:var(--oxford);
   text-decoration: none;
   cursor: pointer;
 }
 
 .u-link:hover {
-  color: var(--black);
+  color: var(--pink);
+  text-shadow:1px 1px 1px var(--oxford);
+}
+
+.u-websiteBackground{
+  background-color:var(--pink);
+  position:fixed;
+  top:0px;
+  left:0px;
+  height:100vh;
+  width:100vw;
+}
+
+.u-header{
+  background-color: var(--green);
+  width:25vw;
+  border-bottom-right-radius:8px;
+  padding:18px;
+  border-right: 1px solid var(--oxford);
+  border-bottom: 1px solid var(--oxford);
+  box-shadow: 1px 1px 3px var(--oxford);
+}
+
+.u-title{
+  color: var(--pink);
+  text-align:center;
+  font-size:36px;
+  font-family: var(--primary-font);
+}
+
+.u-container{
+  padding:var(--l);
+  background-color: var(--green);
+  border-radius: 16px;
+  margin:16px 15% 16px 15%;
+  outline: var(--oxford) solid 3px;
+  box-shadow: 3px 3px 5px var(--oxford);
+}
+
+.u-name{
+  color:var(--green);
+  font-size:48px;
+  font-family: var(--primary-font);
+  text-align:center;
+  padding:16px;
+  text-shadow: -1px -1px 0 var(--oxford), 1px -1px 0 var(--oxford), -1px 1px 0 var(--oxford), 1px 1px 0 var(--oxford);
+
 }

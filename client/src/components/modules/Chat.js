@@ -1,10 +1,14 @@
-import React, { useEffect,useState,Component } from "react";
+import { get } from "../../utilities";
+import React, { useEffect,useState } from "react";
+import Profile from "../pages/Profile.js"
 
 import "../../utilities.css";
 import "./Chat.css";
 
 const Chat = (props) => {
     const [message,setMessage] = useState("");
+    const [seeProfile,setSeeProfile] = useState(false);
+    const [userProfile,setUserProfile] = useState({});
 
     let hasLength = (obj) => {
         if (typeof obj == "object") return Object.keys(obj).length > 0;
@@ -14,35 +18,52 @@ const Chat = (props) => {
         setMessage(event.target.value);
     }
 
+    let viewProfile = () => {
+        setSeeProfile(true);
+        get("/api/userdata",{id:props.currentChatUser.id}).then((data) => setUserProfile(data));
+    }
+
   return (
     <div className="Chat-container">
-        <div className="Chat-header">
-            {hasLength(props.currentChatUser)? 
-            (<span>{props.currentChatUser.name}</span>)
-            :(<span>Select a User to See Messages</span>)}
-        </div>
-        <div>
-            {hasLength(props.chats)?
-            props.chats.map((chat) => (
-                <div className="Chat-messageUnit">
-                    <span className="Chat-messageBody">{chat.content}</span>
-                    <span className="Chat-messageSender">{chat.sender == props.userId?
-                                    (<span>Me</span>)
-                                    :(<span>{props.currentChatUser.name}</span>)}
-                    </span>
+        {seeProfile? 
+        (<div>
+            <Profile userId={props.userId} data={userProfile} myProfile={false}/> 
+            <div>
+                <button onClick={() => setSeeProfile(false)} className="Chat-return"><div>Return to messages</div></button>
+            </div>
+        </div>)
+        :(<div>
+            <div className="Chat-header">
+                {hasLength(props.currentChatUser)? 
+                (<span className="u-name" onClick={viewProfile}>{props.currentChatUser.name}</span>)
+                :(<span className="u-name">Select a User to See Messages</span>)}
+            </div>
+            <div className="Chat-messages">
+                {hasLength(props.chats)?
+                props.chats.map((chat) => 
+                    chat.sender == props.userId?
+                    (<div className="Chat-messageUnit-me">
+                        <span className="Chat-messageBody-me">{chat.content}</span>
+                        <span className="Chat-messageSender-me">Me, {chat.date}</span>
+                    </div>)
+                :(<div className="Chat-messageUnit-other">
+                    <span className="Chat-messageBody-other">{chat.content}</span>
+                    <span className="Chat-messageSender-other">{props.currentChatUser.name}, {chat.date}</span>
                 </div>))
-            :hasLength(props.currentChatUser)? (<span>No Messages with {props.currentChatUser.name}</span>) :(<span></span>)
-            }
-        </div>
-        <div>
+                :hasLength(props.currentChatUser)? 
+                    (<span className="Chat-noMessages">No Messages with {props.currentChatUser.name}</span>) 
+                    :(<span></span>)
+                }
+            </div>
+        
             {hasLength(props.currentChatUser)?
             (<div className="Chat-sendBody">
                 <input className="Chat-input" type="text" onChange={updateMessage} value={message}/> 
                 <button className="Chat-submit" onClick={() => {if(message != "") {props.postChat(message);setMessage("")}}}><div>Send</div></button>
             </div>)
-            :(<span></span>)
-            }
-        </div>
+            :(<span></span>)}
+        </div>)
+        }
     </div>
 
   );

@@ -41,14 +41,16 @@ const Messages = ({userId}) => {
 
   return (
     <div className="Messages-flexContainer">
-      <div className="Messages-chatList">
-        <div className="Messages-chatTitle">ChatList</div>
-        {Object.keys(chatList).map((chatId) => {return (<div className="Messages-selector" onClick={() => updateCurrentChat(chatId)}>{chatList[chatId]}</div>)})}
+      <div className="Messages-sidebar">
+        <div className="Messages-header"> <div className="u-title">Messages</div></div>
+        <div className="Messages-chatList">
+          {Object.keys(chatList).map((chatId) => {return (<div className="Messages-selector" onClick={() => updateCurrentChat(chatId)}>{chatList[chatId]}</div>)})}
+        </div>
       </div>
-      <div>
+      <div className="Messages-chats">
         {userId?
         (<Chat userId={userId} currentChatUser={currentChatUser} chats={currentChats} postChat={postChat}/>)
-        :(<div>Login to See Message List</div>)}
+        :(<div className="u-name">Login to See Messages</div>)}
       </div>
     </div>
 

@@ -1,27 +1,30 @@
-@import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
-
 
 .Navbar-container{
-    background-color: var(--primary--dim);
-    border:0;
-    padding-bottom:8px;
+    background-color: var(--teal);
+    border-bottom:1px solid black;
+    padding:32px;
     margin:0;
 }
 
 .Navbar-title{
-    color: var(--grey);
+    color: var(--oxford);
     padding: var(--l);
-    padding-bottom:0;
-    font-size:18px;
+    font-size:28px;
+    font-family: var(--primary-font);
+    font-weight:600;
 }
 
 .Navbar-linkcontainer{
-    padding:var(--l);
-    padding-bottom:0;
+
 }
 
 .Navbar-link{
-    color: var(--grey);
-    font-size:18px;
-    font-family:sans-serif;
+    color: var(--oxford);
+    padding:var(--l);
+    font-size:24px;
+    font-family:var(--primary-font);
+}
+
+.Navbar-login{
+    float: right;
 }

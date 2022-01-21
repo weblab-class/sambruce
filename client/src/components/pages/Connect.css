@@ -1,16 +1,32 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto&display=swap");
 
-.Connect-container{
-    padding:var(--l);
-    background-color: var(--primary--dim);
-    border-radius: 16px;
-    margin:16px 15% 16px 15%;
-    outline: var(--darkergrey) solid 3px;
-}
 
 .Connect-body{
     font-size:24px;
-    font-family: sans-serif;
+    font-family: var(--secondary-font);
     color:var(--darkergrey);
     margin:16px;
+}
+
+.Connect-line{
+    margin:16px;
+}
+
+.Connect-center{
+    justify-content: center;
+}
+
+.Connect-button{
+    cursor:pointer;
+    border-radius: 6px;
+    background-color:var(--pink);
+    color:var(--oxford);
+    font-family:var(--secondary-font);
+    font-size:24px;
+    border: 2px solid var(--oxford);
+    padding: 20px 28px 20px 28px;
+}
+
+.Connect-button:hover{
+    background-color:var(--teal);
 }

@@ -1,55 +1,123 @@
 
+
 .Chat-container{
-    flex-grow:1;
 }
 
 .Chat-header{
     padding:24px;
-    font-size:36px;
-    font-family: sans-serif;
-    font-weight: 400;
+    cursor:pointer;
 }
 
-.Chat-messageUnit{
-    margin:16px;
+.Chat-messages{
+    margin-top:16px;
+    display:flex;
+    flex-direction: column;
 }
 
-.Chat-messageBody{
-    background-color:var(--primary--dim);
-    color:white;
+.Chat-noMessages{
+    padding: 8px 16px 8px 32px;
+    color:var(--oxford);
+    font-size:20px;
+    font-family:var(--secondary-font);
+}
+
+.Chat-messageUnit-me{
+    margin-right:16px;
+    cursor:default;
+    display:flex;
+    flex-direction: row-reverse;
+}
+
+.Chat-messageUnit-other{
+    margin-left:16px;
+    cursor:default;
+    display:flex;
+    justify-content: flex-start;
+}
+
+.Chat-messageBody-me{
+    background-color:var(--teal);
+    color:var(--oxford);
     padding: 8px 16px 8px 16px;
-    font-size:16px;
-    font-family:sans-serif;
+    font-size:20px;
+    font-family:var(--secondary-font);
     border-radius: 6px;
 }
 
-.Chat-messageSender{
-    color:darkgray;
-    font-family: sans-serif;
-    font-size:12px;
+.Chat-messageSender-me{
+    color:var(--brown);
+    font-family: var(--secondary-font);
+    font-size:16px;
     padding:8px;
+    display: none;
+}
+
+.Chat-messageBody-me:hover + .Chat-messageSender-me{
+    display:inline;
+}
+
+.Chat-messageBody-other{
+    background-color:var(--green);
+    color:var(--oxford);
+    padding: 8px 16px 8px 16px;
+    font-size:20px;
+    font-family:var(--secondary-font);
+    border-radius: 6px;
+}
+
+.Chat-messageSender-other{
+    color:var(--brown);
+    font-family: var(--secondary-font);
+    font-size:16px;
+    padding:8px;
+    display: none;
+}
+
+.Chat-messageBody-other:hover + .Chat-messageSender-other{
+    display:inline;
 }
 
 .Chat-sendBody{
     position:fixed;
     bottom:32px;
-    left:auto;
+    left:35vw;
 }
 .Chat-input{
     border-radius: 8px;
-    width:70%;
+    border: 2px solid var(--oxford);
+    width:50vw;
     height:36px;
     font-size:27px;
-    font-family:sans-serif;
+    font-family:var(--secondary-font);
 }
 
 .Chat-submit{
-    background-color: var(--primary--dim);
+    background-color: var(--green);
+    border: 2px solid var(--oxford);
+    color:var(--pink);
     border-radius:8px;
-    width:20%;
+    cursor:pointer;
+    width:10vw;
     height:36px;
-    color:white;
-    font-family: sans-serif;
+    font-family: var(--secondary-font);
     text-align:center;
     font-size:18px;
+}
+
+.Chat-return{
+    margin:36px;
+    background-color: var(--green);
+    border: 2px solid var(--oxford);
+    color:var(--pink);
+    border-radius:8px;
+    cursor:pointer;
+    width:20vw;
+    height:36px;
+    font-family: var(--secondary-font);
+    text-align:center;
+    font-size:18px;
+}
+
+.Chat-submit:hover,.Chat-return:hover{
+    background-color: var(--teal);
 }

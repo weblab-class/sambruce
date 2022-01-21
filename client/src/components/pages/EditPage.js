@@ -14,11 +14,11 @@ const EditPage = ({userId,data,name}) => {
     const loggedIn = (name) => {
         if(name) {
             if(!isLoggedIn) setIsLoggedIn(true);
-            return("Hello ".concat(name));
+            return(name);
         }
         else{
             if(isLoggedIn) setIsLoggedIn(false);
-            return("Please Login to Access Content")
+            return("Please Login to Edit Profile")
         }
     }
 
@@ -44,23 +44,24 @@ const EditPage = ({userId,data,name}) => {
     }
   return (
     <div >
-        <div className="EditPage-greeting">
+        <div className="u-header  u-textCenter"><div className="u-title">Edit Profile</div></div>
+        <div className="u-name">
         {loggedIn(name)}
         </div>
-        <div className="EditPage-container">
             {isLoggedIn? (
-            <form action="/profile" className="EditPage-form">
-                <div className="EditPage-field">Location: <input className="EditPage-input" type="text" onChange={updateLoc} value={loc}></input></div>
-                <div className="EditPage-field">Schedule: <input className="EditPage-input" type="text"onChange={updateSch} value={sch}></input></div>
-                <div className="EditPage-field">Favorite Workout: <input className="EditPage-input" type="text" onChange={updateFav} value={fav}></input></div>
-                <button type="submit" value="Update" onClick={submitForm} >
-                    <div className="EditPage-button">Update</div>
-                </button>
-            </form>)
+                <div className="u-container">
+                    <form action="/profile">
+                        <div className="EditPage-field">Location: <input className="EditPage-input" type="text" onChange={updateLoc} value={loc}></input></div>
+                        <div className="EditPage-field">Schedule: <input className="EditPage-input" type="text"onChange={updateSch} value={sch}></input></div>
+                        <div className="EditPage-field">Favorite Workout: <input className="EditPage-input" type="text" onChange={updateFav} value={fav}></input></div>
+                        <button type="submit" value="Update" onClick={submitForm} className="EditPage-button">
+                            <div>Update</div>
+                        </button>
+                    </form>
+            </div>)
             
             :(<div></div>)}
 
-        </div>
     </div>
 
 

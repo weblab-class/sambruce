@@ -50,7 +50,7 @@ router.get("/randuser",(req,res) => { //returns a random user not previously mat
     return res.send({});
   }
   
-  prior_connections = []
+  prior_connections = [] 
   cList = null
   //finds logged in user's connection list and if update is true, includes current connection
   ConnectList.findOne({userId :req.query.id}).then((user_connections) => { 
@@ -202,8 +202,10 @@ router.post("/updateuserdata",(req,res) => {
 });
 
 router.post("/singleChat", (req,res) => {
-  let newMessage = {sender:req.body.id,content:req.body.message};
-  let messages = [];
+  let m_time = new Date();
+  let m_date = (m_time.getMonth()+1)+'-'+m_time.getDate()+'-'+m_time.getFullYear()+' '+m_time.getHours()+':'+m_time.getMinutes();
+  console.log(m_date); 
+  let newMessage = {sender:req.body.id,content:req.body.message, date:m_date};
   MessageList.findOne({userId:req.body.id}).then((mList) => {
     let newChatList = {};
     for (var chatuser in mList.chats){
