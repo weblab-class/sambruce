@@ -218,8 +218,9 @@ router.post("/updateuserdata",(req,res) => {
 });
 
 router.post("/singleChat", (req,res) => {
-  let m_time = new Date.UTC();
-  let m_date = (m_time.getMonth()+1)+'-'+m_time.getDate()+'-'+m_time.getFullYear()+' '+m_time.getHours()+':'+m_time.getMinutes();
+  let m_time = new Date();
+  let minutes = m_time.getUTCMinutes();
+  let m_date = (m_time.getUTCMonth()+1)+'-'+m_time.getUTCDate()+'-'+m_time.getUTCFullYear()+' '+m_time.getUTCHours()+':'+(minutes >=10? minutes :"0"+minutes);
   let newMessage = {sender:req.body.id,content:req.body.message, date:m_date};
   MessageList.findOne({userId:req.body.id}).then((mList) => {
     let newChatList = {};
@@ -239,7 +240,7 @@ router.post("/singleChat", (req,res) => {
     newChatList[req.body.id] = [...newChatList[req.body.id],newMessage];
     mList.chats = newChatList;
     mList.save();
-    socketManager.getSocketFromUserID(req.body.c_id).emit("chat",newMessage);
+    if (socketManager.getSocketFromUserID(req.body.c_id)) socketManager.getSocketFromUserID(req.body.c_id).emit("chat",newMessage);
   });
 });
 
