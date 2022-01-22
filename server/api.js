@@ -66,21 +66,37 @@ router.get("/randuser",(req,res) => { //returns a random user not previously mat
           if (newChat == "false") { () => {
             Profile.findOne({userId : {$nin : [...prior_connections,req.query.id] }}).then((profile) => {
               newChat = profile.userId;
+              if (!mList) {
+                newMessageList = new MessageList({userId:req.query.id,chats:{},current_chat:null});
+                newMessageList.chats[newChat] = [];
+                newMessageList.save();
+              }
+              else {
+                let newChatList = {};
+                for (var chatuser in mList.chats){
+                  newChatList[chatuser] = mList.chats[chatuser];
+                }
+                newChatList[newChat] = [];
+                mList.chats = newChatList;
+                mList.save();
+              }
             });
           }}
-          if (!mList) {
-            newMessageList = new MessageList({userId:req.query.id,chats:{},current_chat:null});
-            newMessageList.chats[newChat] = [];
-            newMessageList.save();
-          }
-          else {
-            let newChatList = {};
-            for (var chatuser in mList.chats){
-              newChatList[chatuser] = mList.chats[chatuser];
+          else{
+            if (!mList) {
+              newMessageList = new MessageList({userId:req.query.id,chats:{},current_chat:null});
+              newMessageList.chats[newChat] = [];
+              newMessageList.save();
             }
-            newChatList[newChat] = [];
-            mList.chats = newChatList;
-            mList.save();
+            else {
+              let newChatList = {};
+              for (var chatuser in mList.chats){
+                newChatList[chatuser] = mList.chats[chatuser];
+              }
+              newChatList[newChat] = [];
+              mList.chats = newChatList;
+              mList.save();
+            }
           }
         });
       }
@@ -202,9 +218,8 @@ router.post("/updateuserdata",(req,res) => {
 });
 
 router.post("/singleChat", (req,res) => {
-  let m_time = new Date();
+  let m_time = new Date.UTC();
   let m_date = (m_time.getMonth()+1)+'-'+m_time.getDate()+'-'+m_time.getFullYear()+' '+m_time.getHours()+':'+m_time.getMinutes();
-  console.log(m_date); 
   let newMessage = {sender:req.body.id,content:req.body.message, date:m_date};
   MessageList.findOne({userId:req.body.id}).then((mList) => {
     let newChatList = {};
@@ -224,6 +239,7 @@ router.post("/singleChat", (req,res) => {
     newChatList[req.body.id] = [...newChatList[req.body.id],newMessage];
     mList.chats = newChatList;
     mList.save();
+    socketManager.getSocketFromUserID(req.body.c_id).emit("chat",newMessage);
   });
 });
 

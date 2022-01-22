@@ -10,6 +10,11 @@ const Chat = (props) => {
     const [seeProfile,setSeeProfile] = useState(false);
     const [userProfile,setUserProfile] = useState({});
 
+    useEffect(() => {
+        var myDiv = document.getElementById("Chat-messageDiv");
+        if(myDiv) myDiv.scrollTop = myDiv.scrollHeight;
+    },[props.currentChatUser, props.chats]);
+
     let hasLength = (obj) => {
         if (typeof obj == "object") return Object.keys(obj).length > 0;
         return obj.length >0;
@@ -24,7 +29,7 @@ const Chat = (props) => {
     }
 
   return (
-    <div className="Chat-container">
+    <div>
         {seeProfile? 
         (<div>
             <Profile userId={props.userId} data={userProfile} myProfile={false}/> 
@@ -35,10 +40,10 @@ const Chat = (props) => {
         :(<div>
             <div className="Chat-header">
                 {hasLength(props.currentChatUser)? 
-                (<span className="u-name" onClick={viewProfile}>{props.currentChatUser.name}</span>)
+                (<span className="u-name Chat-name" onClick={viewProfile}>{props.currentChatUser.name}</span>)
                 :(<span className="u-name">Select a User to See Messages</span>)}
             </div>
-            <div className="Chat-messages">
+            <div className="Chat-messages" id="Chat-messageDiv">
                 {hasLength(props.chats)?
                 props.chats.map((chat) => 
                     chat.sender == props.userId?

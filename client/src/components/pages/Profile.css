@@ -17,5 +17,6 @@
     background-color:var(--green);
     font-family:var(--secondary-font);
     margin-left:16px;
+    border: 2px solid var(--oxford);
 
 }

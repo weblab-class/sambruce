@@ -1,17 +1,24 @@
 
-
-.Chat-container{
-}
-
 .Chat-header{
     padding:24px;
+    border: 1px solid var(--oxford);
+    text-align: center;
+}
+
+.Chat-name{
     cursor:pointer;
 }
 
 .Chat-messages{
-    margin-top:16px;
     display:flex;
     flex-direction: column;
+    overflow:scroll;
+    height:calc(100vh - 320px);
+    border-bottom: 1px solid var(--oxford);
+}
+
+.Chat-messages > *{
+    flex: 0 0 auto;
 }
 
 .Chat-noMessages{
@@ -108,7 +115,7 @@
     margin:36px;
     background-color: var(--green);
     border: 2px solid var(--oxford);
-    color:var(--pink);
+    color:var(--oxford);
     border-radius:8px;
     cursor:pointer;
     width:20vw;

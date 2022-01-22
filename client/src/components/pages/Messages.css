@@ -7,12 +7,15 @@
 .Messages-header{
     background-color: var(--green);
     width:30vw;   
-    padding:18px;
+    padding:33px 18px 33px 18px;
     border-right: 1px solid var(--oxford);
+    border-bottom: 1px solid var(--oxford);
     box-shadow: 1px 1px 3px var(--oxford);
 }
 
 .Messages-chatList{
+    overflow:scroll;
+    height:calc(100vh - 300px);
     padding:24px;
     height:75vh;
     background-color:var(--green);

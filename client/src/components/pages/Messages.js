@@ -1,5 +1,6 @@
 import React, { useEffect,useState,Component } from "react";
 import { get, post } from "../../utilities";
+import { socket } from "../../client-socket.js";
 
 import "../../utilities.css";
 import "./Messages.css";
@@ -37,7 +38,15 @@ const Messages = ({userId}) => {
     setCurrentChats([]);
     setCurrentChatUser({});
     updateCurrentChat(null);
+
+    let addChat = (new_message) =>{
+      setCurrentChats((old_chats) => [...old_chats,new_message]);
+    }
+
+    socket.on("chat",addChat);
+    return () => {socket.off("chat",addChat);}
   },[userId]);
+
 
   return (
     <div className="Messages-flexContainer">
