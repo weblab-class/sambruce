@@ -7,6 +7,15 @@
     color:var(--darkergrey);
 }
 
+.EditPage-note{
+    margin:20px;
+    margin-bottom:0px;
+    font-family: var(--secondary-font);
+    font-size:18px;
+    color:var(--darkergrey);
+    text-align: center;
+}
+
 .EditPage-input{
     background-color:var(--pink);
     float:right;
@@ -19,6 +28,7 @@
 
 .EditPage-button{
     cursor:pointer;
+    margin-top:12px;
     border-radius: 6px;
     background-color:var(--pink);
     font-family:var(--secondary-font);

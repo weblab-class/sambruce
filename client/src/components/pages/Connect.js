@@ -38,9 +38,13 @@ const Connect = ({userId}) => {
             <div className="u-name">{newUser.name}</div>
             <div className="u-container"> 
                 <div className="Connect-body u-textCenter">
-                  <div className="Connect-line">Living in {newUser.location} </div>
-                  <div className="Connect-line">Works out {newUser.schedule} </div>
-                  <div className="Connect-line">Favorite workout is {newUser.favorite} </div>
+                  {newUser.location?(<div className="Connect-line"> I'm living in {newUser.location} </div>):(<div></div>)}
+                    {newUser.schedule?(<div className="Connect-line"> My workout schedule is {newUser.schedule} </div>):(<div></div>)}
+                    {newUser.tod?(<div className="Connect-line"> I workout {newUser.tod} </div>):(<div></div>)}
+                    {newUser.split?(<div className="Connect-line"> My workout routine is {newUser.split} </div>):(<div></div>)}
+                    {newUser.favoriteWorkout?(<div className="Connect-line"> My favorite workout is {newUser.favoriteWorkout} </div>):(<div></div>)}
+                    {newUser.favoriteSport?(<div className="Connect-line"> My favorite sport(s): {newUser.favoriteSport} </div>):(<div></div>)}
+                    {newUser.other?(<div className="Connect-line"> More about me: {newUser.other} </div>):(<div></div>)}
                 </div>
                 <div className="u-flex Connect-center">
                   <span>

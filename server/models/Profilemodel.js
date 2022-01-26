@@ -5,7 +5,11 @@ const ProfileSchema = new mongoose.Schema({
   name: String,
   location: String,
   schedule:String,
-  favorite:String,
+  tod:String,
+  split:String,
+  favoriteWorkout:String,
+  favoriteSport:String,
+  other:String,
 });
 
 // compile model from schema

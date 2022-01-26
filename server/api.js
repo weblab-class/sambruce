@@ -202,14 +202,18 @@ router.get("/currentChat", (req,res) => {
 });
 
 router.post("/updateuserdata",(req,res) => {
-  [username,loc,sch,fav,user_id] = req.body
+  [username,user_id,loc,sch,tod,split,favSport,favWorkout,otherInfo] = req.body
   let query = {userId:user_id};
   Profile.deleteMany(query).then( () => {
   const profile = new Profile({ 
     name:username, 
     location:loc, 
     schedule:sch,
-    favorite:fav,
+    tod:tod,
+    split:split,
+    favoriteWorkout:favWorkout,
+    favoriteSport:favSport,
+    other:otherInfo,
     userId:user_id, 
   })
   profile.save();

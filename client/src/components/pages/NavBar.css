@@ -14,10 +14,6 @@
     font-weight:600;
 }
 
-.Navbar-linkcontainer{
-
-}
-
 .Navbar-link{
     color: var(--oxford);
     padding:var(--l);
